@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ormConfig } from './infrastructure/database/ormconfig';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { WeatherModule } from './modules/weather/weather.module';
@@ -16,7 +14,7 @@ import { HttpModule } from '@nestjs/axios';
       useFactory: () => ormConfig(),
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
