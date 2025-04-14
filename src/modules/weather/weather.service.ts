@@ -37,6 +37,8 @@ export class WeatherService {
           part,
         },
       );
+    } else {
+      reportQuery.andWhere('(array_length(wr.part, 1) = 0)');
     }
 
     return await reportQuery.getOne();
