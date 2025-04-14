@@ -20,6 +20,28 @@ export class WeatherService {
     private readonly configService: ConfigService,
   ) {}
 
+  async getWeatherReportFromDb(
+    lat: number,
+    lon: number,
+    part?: WeatherPartExclude[],
+  ) {
+    const reportQuery = this.weatherRepository
+      .createQueryBuilder('wr')
+      .where('wr.latitude = :lat', { lat })
+      .andWhere('wr.longitude = :lon ', { lon });
+
+    if (part) {
+      reportQuery.andWhere(
+        'wr.part = ARRAY[:...part]::open_weather_parts_exclude_type[]',
+        {
+          part,
+        },
+      );
+    }
+
+    return await reportQuery.getOne();
+  }
+
   async createWeatherReport(dto: WeatherReportDto): Promise<void> {
     const appid = this.configService.get<string>('OPEN_WEATHER_APP_KEY');
 
