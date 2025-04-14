@@ -15,6 +15,18 @@ This project uses free version of the API `/data/2.5/weather`.
 * PostgreSQL
 * Docker
 
+## Prerequisites
+A `.env` file is required with following contents
+```dotenv
+APP_PORT=
+DB_HOST=
+DB_PORT=
+DB_USERNAME=
+DB_PASSWORD=
+DB_NAME=
+OPEN_WEATHER_APP_KEY=
+```
+
 ## Project setup
 To launch production build in Docker
 ```bash
