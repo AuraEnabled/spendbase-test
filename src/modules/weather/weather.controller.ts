@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  HttpException,
   Post,
   Query,
   UseInterceptors,
@@ -21,10 +22,19 @@ export class WeatherController {
   @Get('getReport')
   @UsePipes(new ValidationPipe({ transform: true }))
   @UseInterceptors(TransformWeatherInterceptor)
-  getWeatherReport(@Query() query: GetWeatherReportDto) {
+  async getWeatherReport(@Query() query: GetWeatherReportDto) {
     const { lat, lon, part } = query;
 
-    return this.weatherService.getWeatherReportFromDb(lat, lon, part);
+    const report = await this.weatherService.getWeatherReportFromDb(
+      lat,
+      lon,
+      part,
+    );
+
+    if (!report) {
+      throw new HttpException('No report by given criteria', 404);
+    }
+    return report;
   }
 
   @Post('createReport')
